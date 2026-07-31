@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyMate AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="binder">
+
+  <!-- Cover strip / brand -->
+  <header class="cover">
+    <div class="cover-mark">SM</div>
+    <div class="cover-text">
+      <h1>StudyMate AI</h1>
+      <p class="cover-tagline">One notebook. Every subject.</p>
+    </div>
+    <div class="subject-slot">
+      <label for="subjectInput">Subject</label>
+      <input id="subjectInput" type="text" placeholder="e.g. Organic Chemistry, World History..." autocomplete="off">
+    </div>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <span class="theme-icon">🌙</span>
+    </button>
+    <div class="auth-slot" id="authSlot">
+  <button class="btn-primary" id="loginOpenBtn" style="padding:8px 14px;">Login / Sign up</button>
+  <div class="user-chip" id="userChip" style="display:none;">
+    <span id="userNameLabel"></span>
+    <button class="btn-copy" id="logoutBtn">Logout</button>
+  </div>
+</div>
+  </header>
+
+  <div class="notebook" style="display:none;">
+
+    <!-- Tab rail -->
+    <nav class="tab-rail" aria-label="Study tools">
+      <button class="tab active" data-tab="subject"><span class="tab-num">01</span><span class="tab-label">Subject</span></button>
+      <button class="tab" data-tab="notes"><span class="tab-num">02</span><span class="tab-label">Notes</span></button>
+      <button class="tab" data-tab="quiz"><span class="tab-num">03</span><span class="tab-label">Quiz</span></button>
+      <button class="tab" data-tab="flashcards"><span class="tab-num">04</span><span class="tab-label">Flashcards</span></button>
+      <button class="tab" data-tab="summary"><span class="tab-num">05</span><span class="tab-label">Summary</span></button>
+      <button class="tab" data-tab="planner"><span class="tab-num">06</span><span class="tab-label">Planner</span></button>
+      <button class="tab" data-tab="eli10"><span class="tab-num">07</span><span class="tab-label">ELI10</span></button>
+      <button class="tab" data-tab="doubt"><span class="tab-num">08</span><span class="tab-label">Doubt solver</span></button>
+      <button class="tab" data-tab="progress"><span class="tab-num">09</span><span class="tab-label">Progress</span></button>
+    </nav>
+
+    <!-- Page panel -->
+    <main class="page-panel">
+      <div class="binder-holes" aria-hidden="true"></div>
+      <div class="margin-rule" aria-hidden="true"></div>
+
+      <div class="page-scroll">
+
+        <!-- 01 Subject -->
+        <section class="page active" id="page-subject">
+          <p class="page-eyebrow">01 · Start here</p>
+          <h2>What are you studying today?</h2>
+          <p class="page-hint">Type a subject or topic above, or pick one you've used before. Everything else in this notebook works from what you set here.</p>
+          <div class="chip-row" id="recentSubjects"></div>
+          <div class="empty-note">
+            <p>No subject set yet. Add one in the box at the top of the page — then move to <strong>02 Notes</strong> to begin.</p>
+          </div>
+        </section>
+
+        <!-- 02 Notes -->
+        <section class="page" id="page-notes">
+          <p class="page-eyebrow">02 · Notes generator</p>
+          <h2>Structured study notes</h2>
+          <div class="field-row">
+            <input type="text" id="notesTopic" placeholder="Narrow topic within your subject (optional)">
+            <button class="btn-primary" id="notesBtn"><i class="glyph">✎</i>Generate notes</button>
+          </div>
+          <div class="chip-row" id="notesHistory"></div>
+        <div class="output-header">
+  <button class="btn-copy" data-copy-target="notesOutput"><i class="glyph">⧉</i> Copy</button>
+  <button class="btn-download" data-download-target="notesOutput" data-filename="notes"><i class="glyph">⬇</i> Download</button>
+</div>
+<div class="stream-page" id="notesOutput" data-placeholder="Your notes will be written out here, line by line."></div>
+         
+        </section>
+
+        <!-- 03 Quiz -->
+        <section class="page" id="page-quiz">
+          <p class="page-eyebrow">03 · Quiz generator</p>
+          <h2>Test what you know</h2>
+          <div class="field-row">
+            <input type="text" id="quizTopic" placeholder="Narrow topic (optional)">
+            <select id="quizCount">
+              <option value="5">5 questions</option>
+              <option value="10" selected>10 questions</option>
+              <option value="15">15 questions</option>
+            </select>
+            <select id="quizDifficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+            <button class="btn-primary" id="quizBtn"><i class="glyph">?</i>Generate quiz</button>
+          </div>
+          <div class="chip-row" id="quizHistory"></div>
+          <div class="output-header">
+  <button class="btn-copy" data-copy-target="quizOutput"><i class="glyph">⧉</i> Copy</button>
+  <button class="btn-download" data-download-target="quizOutput" data-filename="quiz"><i class="glyph">⬇</i> Download</button>
+</div>
+<div class="stream-page" id="quizOutput" data-placeholder="Your quiz will appear here as it's written."></div>
+         
+        </section>
+
+        <!-- 04 Flashcards -->
+        <section class="page" id="page-flashcards">
+          <p class="page-eyebrow">04 · Flashcards</p>
+          <h2>Quick-fire revision</h2>
+          <div class="field-row">
+  <input type="text" id="flashTopic" placeholder="Narrow topic (optional)">
+  <button class="btn-primary" id="flashBtn"><i class="glyph">◆</i>Generate flashcards</button>
+</div>
+<p class="page-hint small">Tap a card to flip it.</p>
+<div class="output-header" id="flashExportRow" style="display:none;">
+  <button class="btn-copy" id="flashExportCsv"><i class="glyph">⧉</i> Export to Anki (CSV)</button>
+  <button class="btn-download" id="flashExportPrint"><i class="glyph">🖨</i> Print view</button>
+</div>
+<div class="flashcard-deck" id="flashDeck"></div>
+        </section>
+
+        <!-- 05 Summary -->
+        <section class="page" id="page-summary">
+          <p class="page-eyebrow">05 · Summary generator</p>
+          <h2>Condense the long stuff</h2>
+          <textarea id="summaryInput" rows="6" placeholder="Paste your notes or a long topic description here, or just leave blank to summarize the subject in general..."></textarea>
+          <div class="field-row">
+            <button class="btn-primary" id="summaryBtn"><i class="glyph">≡</i>Summarize</button>
+          </div>
+          <div class="chip-row" id="summaryHistory"></div>
+         <div class="output-header">
+  <button class="btn-copy" data-copy-target="summaryOutput"><i class="glyph">⧉</i> Copy</button>
+  <button class="btn-download" data-download-target="summaryOutput" data-filename="summary"><i class="glyph">⬇</i> Download</button>
+</div>
+<div class="stream-page" id="summaryOutput" data-placeholder="Your exam-ready summary will show up here."></div>
+          
+        </section>
+
+        <!-- 06 Planner -->
+        <section class="page" id="page-planner">
+  <p class="page-eyebrow">06 · Daily study planner</p>
+  <h2>Build a day-wise schedule</h2>
+  <div class="field-row">
+    <input type="text" id="plannerSubjectInput" placeholder="Add a subject, press Enter (leave empty to use main subject)">
+  </div>
+  <div class="chip-row" id="plannerSubjectChips"></div>
+  <div class="field-row">
+    <input type="number" id="plannerHours" min="1" max="12" value="3" style="max-width:90px">
+    <label class="inline-label" for="plannerHours">hrs/day available</label>
+    <input type="number" id="plannerDays" min="1" max="60" value="7" style="max-width:90px">
+    <label class="inline-label" for="plannerDays">days to plan</label>
+  </div>
+  <div class="field-row">
+    <button class="btn-primary" id="plannerBtn"><i class="glyph">▤</i>Build my plan</button>
+  </div>
+  <div class="output-header">
+    <button class="btn-download" data-download-target="plannerOutput" data-filename="study-planner"><i class="glyph">⬇</i> Download</button>
+  </div>
+  <div class="stream-page" id="plannerOutput" data-placeholder="Your day-by-day plan will be drafted here."></div>
+</section>
+
+        <!-- 07 ELI10 -->
+        <section class="page" id="page-eli10">
+          <p class="page-eyebrow">07 · Explain like I'm 10</p>
+          <h2>Make it make sense</h2>
+          <div class="field-row">
+            <input type="text" id="eli10Topic" placeholder="The confusing bit, exactly as it's tripping you up">
+            <button class="btn-primary" id="eli10Btn"><i class="glyph">☺</i>Simplify it</button>
+          </div>
+          <div class="chip-row" id="eli10History"></div>
+        <div class="output-header">
+  <button class="btn-copy" data-copy-target="eli10Output"><i class="glyph">⧉</i> Copy</button>
+  <button class="btn-download" data-download-target="eli10Output" data-filename="eli10"><i class="glyph">⬇</i> Download</button>
+</div>
+<div class="stream-page margin-note" id="eli10Output" data-placeholder="A plain-English explanation will land here, like a note in the margin."></div>
+         
+        </section>
+
+        <!-- 08 Doubt Solver -->
+        <section class="page" id="page-doubt">
+          <p class="page-eyebrow">08 · Doubt solver</p>
+          <h2>Ask anything about your subject</h2>
+          <div class="chat-thread" id="doubtThread">
+            <div class="chat-empty">Your questions and answers will appear here as a running thread.</div>
+          </div>
+          <div class="field-row chat-row">
+          <input type="text" id="doubtInput" placeholder="Ask your doubt...">
+          <button class="btn-mic" id="doubtMicBtn" type="button" title="Speak your doubt">🎤</button>
+         <button class="btn-primary" id="doubtBtn"><i class="glyph">➤</i>Ask</button>
+          </div>
+        </section>
+
+        <!-- 09 Progress -->
+<section class="page" id="page-progress">
+  <p class="page-eyebrow">09 · Progress tracker</p>
+  <h2>Your study activity</h2>
+  <p class="page-hint small">Tracked on this device only.</p>
+  <div class="progress-grid" id="progressGrid"></div>
+</section>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Auth Modal -->
+<div class="auth-modal" id="authModal" style="display:none;">
+  <div class="auth-modal-box">
+    <button class="auth-close" id="authCloseBtn">✕</button>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-authtab="login">Login</button>
+      <button class="auth-tab" data-authtab="signup">Sign up</button>
+    </div>
+
+    <div class="auth-form active" id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button class="btn-primary" id="loginSubmitBtn">Login</button>
+      <p class="auth-error" id="loginError"></p>
+    </div>
+
+    <div class="auth-form" id="signupForm">
+      <input type="text" id="signupName" placeholder="Your name">
+      <input type="email" id="signupEmail" placeholder="Email">
+      <input type="password" id="signupPassword" placeholder="Password (min 6 chars)">
+      <button class="btn-primary" id="signupSubmitBtn">Create account</button>
+      <p class="auth-error" id="signupError"></p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="js/api.js?v=2"></script>
+<script src="js/app.js?v=10"></script>
+
+</body>
+</html>
