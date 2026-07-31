@@ -87,3 +87,5 @@ studymate-docker/
 ## Author
 
 Built by Kruti Chaudhary as part of a "Vibe Coding: Building & Deploying an AI Study Planner" assignment.
+Government Engineering College Daman.
+Computer Engineering
