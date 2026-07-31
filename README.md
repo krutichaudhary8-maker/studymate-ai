@@ -82,17 +82,6 @@ studymate-docker/
 ```bash
    docker build -t studymate-ai .
    docker run -p 8000:8000 --env-file .env studymate-ai
-```
-
-4. Open [http://localhost:8000](http://localhost:8000) in your browser.
-
----
-
-## Notes
-
-- Google Gemini's free tier allows 20 requests/day per account.
-- On Render's free tier, the SQLite database resets on every redeploy.
-
 ---
 
 ## Author
